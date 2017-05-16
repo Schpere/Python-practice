@@ -24,25 +24,27 @@ class Adder(ttk.Frame):
         self.root.title('Number Adder')
         header = ttk.Label(self, text="Let's add two numbers!", padding =
                           5)
-        header.grid(column=0, row=0, sticky=(tk.N, tk.W, tk.E, tk.S))
-        header.pack()
+        #header.pack()
         a = tk.StringVar()
         b = tk.StringVar()
         sum_value = tk.StringVar()
 
         a_entry = ttk.Entry(self, width=7, textvariable=a)
-        a_entry.grid(column=1, row=2, sticky=tk.W)
         plus = ttk.Label(self, text="+")
-        plus.grid(column=2, row=2, sticky=(tk.W, tk.E))
         b_entry = ttk.Entry(self, width=7, textvariable=b)
-        b_entry.grid(column=3, row=2, sticky=tk.E)
 
         sum_text = ttk.Label(self, textvariable=sum_value)
-        sum_text.grid(column=2, row=3, sticky=(tk.W, tk.E))
-        a_entry.pack()
-        b_entry.pack()
-        sum_text.pack()
-        plus.pack()
+        equals = ttk.Label(self, text="=")
+        #a_entry.pack()
+        #b_entry.pack()
+        #sum_text.pack()
+        #plus.pack()
+        header.grid(column=0, row=0, columnspan=4, sticky=(tk.N, tk.W, tk.E, tk.S))
+        b_entry.grid(column=3, row=1, sticky=tk.E)
+        plus.grid(column=2, row=1, sticky=(tk.W, tk.E))
+        a_entry.grid(column=1, row=1, sticky=tk.W)
+        equals.grid(column=2, row=2, pady=5, sticky=(tk.W, tk.E))
+        sum_text.grid(column=3, row=2, sticky=(tk.W, tk.E))
 
 
 if __name__ == '__main__':
