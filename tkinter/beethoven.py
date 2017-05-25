@@ -16,7 +16,7 @@ class Composer(ttk.Frame):
         """Builds GUI"""
         self.root.title("Beethoven music composer")
 
-        self.header = ttk.Frame(self, padding="3 2 12 12", borderwidth=5)
+        self.header = Composer(self.root, padding="3 2 12 12", borderwidth=5)
         self.header.grid(column=0, row=0, columnspan=5, sticky=(N, W, E))
         self.header_text = ttk.Label(self.header, text="\nWelcome to the "
                 "Beethoven music composer! Here you can create your own "
@@ -27,16 +27,21 @@ class Composer(ttk.Frame):
         self.create_compose_frame()
         self.create_file_frame()
 
+        root.columnconfigure(0, weight=1)
+        root.rowconfigure(1, weight=1)
+        self.compose_frame.columnconfigure(0, weight=1)
+        self.compose_frame.rowconfigure(0, weight=1)
+
     def create_compose_frame(self):
         """Builds the top of the compose frame, used for definining global
         attributes of the music"""
         self.compose_frame = ttk.Frame(self, padding="3 3 12 12", borderwidth=2)
-        self.compose_frame.grid(column=0, row=1, sticky=(N, W, E, S))
+        self.compose_frame.grid(column=0, row=1, sticky=(N, W, S))
         self.create_global_config()
 
         sep = ttk.Separator(self.compose_frame, orient=tk.HORIZONTAL)
-        self.create_sheet_music()
         #sep.grid(column=0, row=2, columnspan=4, sticky=(W, E))
+        self.create_sheet_music()
 
 
     def create_global_config(self):
@@ -101,22 +106,18 @@ class Composer(ttk.Frame):
 
 
     def create_sheet_music(self):
-        v = ttk.Scrollbar(self.compose_frame, orient=tk.VERTICAL)
-        number_of_note_lines = 5
-        self.music_sheet = tk.Canvas(self.compose_frame, height=700,
-                                     yscrollcommand=v.set)
-        v['command'] = self.music_sheet.yview
-        self.music_sheet.grid(column=0, row=1, columnspan=4, sticky=(N, W, S, E))
-        v.grid(column=4, row=1, sticky=(W,E))
-        self.compose_frame.grid_columnconfigure(0, weight=1)
-        self.compose_frame.grid_rowconfigure(0, weight=1)
+        note_line_height = 100
+        self.music_sheet = tk.Canvas(self.compose_frame)
+        self.music_sheet.grid(column=0, row=1, columnspan=4, sticky=(N, W, S))
+        #self.compose_frame.grid_columnconfigure(0, weight=1)
+        #self.compose_frame.grid_rowconfigure(0, weight=1)
 
-        for note_line in range(number_of_note_lines):
-            for line in range(5):
-                y = (note_line + 1) * 60 + line*6
-                self.music_sheet.create_line(10, y, 300, y)
+        for line in range(5):
+            y = line * note_line_height / 4 + 2
+            self.music_sheet.create_line(10, y, 700, y, width=2)
 
-        self.music_sheet.create_line(10, 40, 10, number_of_note_lines*60+24)
+        self.music_sheet.create_line(10, 2, 10,
+                                     note_line_height + 2, width=2)
 
     def create_file_frame(self):
 
